@@ -1,83 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Minimal K</title>
+
+  <!-- Use a crisp display font for the heading and a readable body font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            primary: '#6366f1', // Indigo
-            secondary: '#8b5cf6', // Purple-ish for accent
-            background: '#121212', // Dark background
-            card: '#1e1e2f', // Dark card background
-            footer: '#222233', // Slightly lighter footer bg
+            primary: '#6366f1',   // indigo
+            accent: '#8b5cf6',    // purple
+            bgA: '#071025',       // deep background
+            card: '#0f1724',      // card surface
+            footer: '#0b1220'
           },
           borderRadius: {
-            'xl': '1rem', // bigger rounded corners for curvy feel
+            'xl': '1rem',
+            '2xl': '1.5rem'
           }
-        },
-      },
-    };
+        }
+      }
+    }
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root { color-scheme: dark; }
+    html,body { height:100%; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    /* small shadow for the cards */
+    .card-shadow { box-shadow: 0 6px 24px rgba(2,6,23,0.55); }
+  </style>
 </head>
-<body class="dark bg-background text-gray-300 min-h-screen flex flex-col">
-  <header class="py-12 text-center px-4">
-    <h1 class="text-5xl font-extrabold text-primary select-none">Minimal K</h1>
-    <p class="mt-2 text-secondary text-lg font-medium select-none">Thoughts, notes, and ideas</p>
+<body class="dark bg-[linear-gradient(180deg,#071025_0%,#061022_50%,#05060a_100%)] text-slate-300 min-h-screen flex flex-col">
+
+  <!-- Header with subtle wave SVG behind it -->
+  <header class="relative py-12 px-6 text-center overflow-visible">
+    <!-- gradient blurred blob behind the heading -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-6 flex justify-center">
+      <svg width="820" height="220" viewBox="0 0 820 220" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-20">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0" stop-color="#6366f1"/>
+            <stop offset="1" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 120 C120 0, 300 0, 420 80 C540 160, 720 160, 820 80 L820 220 L0 220 Z" fill="url(#g1)"/>
+      </svg>
+    </div>
+
+    <h1 class="relative text-5xl md:text-6xl font-poppins font-extrabold text-white select-none" style="font-family: Poppins, Inter, sans-serif;">Minimal K</h1>
+    <p class="relative mt-2 text-indigo-200/80 select-none">Thoughts, notes, and ideas</p>
   </header>
 
-  <main class="flex-grow max-w-3xl mx-auto w-full px-6">
-    <div id="posts" class="space-y-6 text-center text-gray-300">
-      Loading posts...
+  <!-- Main content -->
+  <main class="flex-grow max-w-3xl w-full mx-auto px-6 pb-10">
+    <div id="posts" class="space-y-6 mt-6">
+      <!-- fallback while JS loads -->
+      <div class="mx-auto max-w-md p-6 bg-card rounded-2xl border border-white/3 card-shadow text-center">
+        <div class="animate-pulse h-4 bg-white/6 rounded w-2/3 mx-auto mb-4"></div>
+        <div class="animate-pulse h-3 bg-white/6 rounded w-1/3 mx-auto"></div>
+      </div>
     </div>
   </main>
 
-  <footer class="mt-16 py-6 text-center text-secondary bg-footer rounded-t-xl select-none">
-    &copy; <a href="https://github.com/ikenith" target="_blank" rel="noopener noreferrer" class="underline hover:text-primary">@ikenith</a> 2025
+  <!-- Footer -->
+  <footer class="mt-8 px-6">
+    <div class="max-w-3xl mx-auto bg-footer/30 backdrop-blur-sm rounded-t-2xl py-5 text-center border border-white/4">
+      <a href="https://github.com/ikenith" target="_blank" rel="noopener noreferrer" class="text-indigo-300 hover:text-primary transition">@ikenith</a>
+    </div>
   </footer>
 
   <script>
+    // repo settings — update if needed
     const repo = "ikenith/ikenith.github.io";
     const branch = "main";
+
+    // helper to create post card
+    function makeCard(name, path) {
+      const a = document.createElement("a");
+      a.href = `post.html?file=${encodeURIComponent(path)}`;
+      a.className = "block max-w-md mx-auto p-5 rounded-2xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)] hover:from-primary hover:to-accent hover:bg-gradient-to-r transform hover:-translate-y-1 transition card-shadow";
+      a.setAttribute("aria-label", name.replace('.md',''));
+      // inner layout - title centered
+      const t = document.createElement("div");
+      t.className = "text-center font-semibold text-slate-100";
+      t.textContent = name.replace(".md","");
+      a.appendChild(t);
+      // small label area (optional)
+      const sub = document.createElement("div");
+      sub.className = "mt-2 text-sm text-indigo-200/70 text-center";
+      sub.textContent = "Read post →";
+      a.appendChild(sub);
+      return a;
+    }
 
     async function loadPosts() {
       const postsContainer = document.getElementById("posts");
       try {
         const res = await fetch(`https://api.github.com/repos/${repo}/contents/posts?ref=${branch}`);
-        if (!res.ok) throw new Error("GitHub API request failed");
+        if (!res.ok) throw new Error("GitHub API request failed: " + res.status);
         const files = await res.json();
 
         if (!Array.isArray(files) || files.length === 0) {
-          postsContainer.innerHTML = "<p>No posts yet.</p>";
+          postsContainer.innerHTML = `<p class="text-center text-sm text-indigo-200/60">No posts yet — create a <code>posts/</code> folder and add .md files.</p>`;
           return;
         }
 
         postsContainer.innerHTML = "";
-        files.forEach(file => {
-          if (file.name.endsWith(".md")) {
-            const postLink = document.createElement("a");
-            postLink.href = `post.html?file=${encodeURIComponent(file.path)}`;
-            postLink.className = `
-              block p-5 bg-card rounded-xl shadow-md
-              hover:bg-secondary hover:text-white
-              transition-colors duration-300
-              cursor-pointer
-              font-semibold
-              select-none
-              max-w-md mx-auto
-              `;
-            postLink.textContent = file.name.replace(".md", "");
-            postsContainer.appendChild(postLink);
-          }
-        });
+        // sort by name or date if you keep names like YYYY-MM-DD-title.md
+        files
+          .filter(f => f.name.endsWith(".md"))
+          .sort((a,b)=> a.name.localeCompare(b.name))
+          .forEach(file => postsContainer.appendChild(makeCard(file.name, file.path)));
       } catch (err) {
         console.error(err);
-        postsContainer.innerHTML = "<p class='text-red-500'>Failed to load posts.</p>";
+        postsContainer.innerHTML = `<p class="text-center text-sm text-rose-400">Failed to load posts. Check repo name/branch or GitHub API rate limits.</p>`;
       }
     }
 
