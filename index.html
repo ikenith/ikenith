@@ -44,11 +44,12 @@
   <header class="relative py-12 px-6 text-center overflow-visible">
     <!-- gradient blurred blob behind the heading -->
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-6 flex justify-center">
-      <svg width="820" height="220" viewBox="0 0 820 220" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-20">
+      <svg width="820" height="220" viewBox="0 0 820 220" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-40 blur-lg">
         <defs>
-          <linearGradient id="g1" x1="0" x2="1">
-            <stop offset="0" stop-color="#6366f1"/>
-            <stop offset="1" stop-color="#8b5cf6"/>
+          <linearGradient id="g1" x1="0" y1="0" x2="820" y2="220" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#232946"/>
+        <stop offset="0.5" stop-color="#6366f1"/>
+        <stop offset="1" stop-color="#8b5cf6"/>
           </linearGradient>
         </defs>
         <path d="M0 120 C120 0, 300 0, 420 80 C540 160, 720 160, 820 80 L820 220 L0 220 Z" fill="url(#g1)"/>
