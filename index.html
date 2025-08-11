@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minimal K</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
-  <header class="p-6 text-center border-b border-gray-200">
+<body class="bg-gray-50 text-gray-900">
+  <header class="py-6 border-b text-center">
     <h1 class="text-3xl font-bold">Minimal K</h1>
-    <p class="text-gray-500">Thoughts, notes, and ideas</p>
+    <p class="text-gray-600">Thoughts, notes, and ideas</p>
   </header>
 
-  <main id="post-list" class="max-w-2xl mx-auto p-6 space-y-4">
-    <p class="text-center text-gray-500">Loading posts...</p>
+  <main class="max-w-2xl mx-auto mt-8 px-4">
+    <div id="posts" class="space-y-4 text-center text-gray-500">Loading posts...</div>
   </main>
 
   <script>
-    async function loadPosts() {
-      try {
-        const username = "ikenith"; // <-- change this
-        const repo = "ikenith/ikenith.github.io";
-        const folder = "posts";
+    const repo = "ikenith/ikenith.github.io"; // ✅ your exact repo
+    const branch = "main"; // or "master" if that's your default branch
 
-        const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${folder}`);
+    async function loadPosts() {
+      const postsContainer = document.getElementById("posts");
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/posts?ref=${branch}`);
+        if (!res.ok) throw new Error("GitHub API request failed");
         const files = await res.json();
 
-        const listEl = document.getElementById("post-list");
-        listEl.innerHTML = "";
+        if (!Array.isArray(files) || files.length === 0) {
+          postsContainer.innerHTML = "<p>No posts yet.</p>";
+          return;
+        }
 
+        postsContainer.innerHTML = "";
         files.forEach(file => {
           if (file.name.endsWith(".md")) {
-            const postTitle = file.name.replace(".md", "").replace(/-/g, " ");
-            const postLink = `post.html?file=${file.name}`;
-            const el = document.createElement("a");
-            el.href = postLink;
-            el.className = "block p-4 border border-gray-200 rounded hover:bg-gray-100";
-            el.textContent = postTitle;
-            listEl.appendChild(el);
+            const postLink = document.createElement("a");
+            postLink.href = `post.html?file=${encodeURIComponent(file.path)}`;
+            postLink.className = "block p-4 bg-white rounded shadow hover:bg-gray-100";
+            postLink.textContent = file.name.replace(".md", "");
+            postsContainer.appendChild(postLink);
           }
         });
       } catch (err) {
         console.error(err);
-        document.getElementById("post-list").innerHTML = "<p class='text-center text-red-500'>Failed to load posts.</p>";
+        postsContainer.innerHTML = "<p class='text-red-500'>Failed to load posts.</p>";
       }
     }
+
     loadPosts();
   </script>
 </body>
