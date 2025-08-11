@@ -320,7 +320,8 @@
             if (response.ok) {
                 alert("Post saved to GitHub!");
             } else {
-                alert("Failed to save post.");
+                const error = await response.json();
+                alert("Failed to save post.\n" + (error.message || JSON.stringify(error)));
             }
         };
 
