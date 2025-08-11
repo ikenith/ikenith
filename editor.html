@@ -290,7 +290,7 @@
             if (!githubToken) return alert("No token provided.");
 
             // Prepare markdown with YAML frontmatter
-            const content = `---\n"${post.title}"\nDate: "${post.date}"\n---\n\n${post.markdown}`;
+            const content = `---\n${post.title}\nDate: ${post.date}\n---\n\n${post.markdown}`;
             const path = `posts/${post.title.replace(/\s+/g, '-').toLowerCase()}.md`;
 
             // Get SHA if file exists (for update)
