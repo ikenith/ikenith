@@ -1,48 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>View Post</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: auto;
-    padding: 1rem;
-  }
-  pre {
-    background: #f4f4f4;
-    padding: 0.5rem;
-    overflow-x: auto;
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Post | The 01</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { background: #0a0a0f; color: #e5e7eb; font-family: Inter, system-ui, sans-serif; }
+    .card { background: #18181b; border-radius: 1.5rem; box-shadow: 0 6px 24px rgba(2,6,23,0.55); padding: 2rem; max-width: 700px; margin: 2rem auto; }
+    a { color: #0ea5e9; }
+    h1, h2, h3 { color: #fff; font-family: Poppins, Inter, sans-serif; }
+    code { background: #222; padding: 2px 6px; border-radius: 4px; }
+  </style>
 </head>
 <body>
+  <main>
+    <div class="card" id="post-content">
+      <div class="text-center text-primary mb-4"><a href="index.html">&larr; Back</a></div>
+      <div id="loading" class="text-center text-primary/70">Loading...</div>
+    </div>
+  </main>
+  <script>
+    // Get ?file=... from URL
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+    const repo = "ikenith/ikenith.github.io";
+    const branch = "main";
 
-<div id="content">Loading...</div>
-
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const post = urlParams.get('post');
-
-  if (post) {
-    fetch(`posts/${post}`)
-      .then(res => {
+    async function loadPost() {
+      if (!file) {
+        document.getElementById('loading').textContent = "No post specified.";
+        return;
+      }
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${file}?ref=${branch}`);
         if (!res.ok) throw new Error("Post not found");
-        return res.text();
-      })
-      .then(md => {
-        document.getElementById('content').innerHTML = marked.parse(md);
-      })
-      .catch(err => {
-        document.getElementById('content').innerHTML = `<p style="color:red">${err.message}</p>`;
-      });
-  } else {
-    document.getElementById('content').innerHTML = "<p>No post specified.</p>";
-  }
-</script>
-
+        const data = await res.json();
+        const md = atob(data.content.replace(/\n/g, ''));
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('post-content').insertAdjacentHTML('beforeend', marked.parse(md));
+      } catch (err) {
+        document.getElementById('loading').textContent = "Failed to load post.";
+      }
+    }
+    loadPost();
+  </script>
 </body>
 </html>
