@@ -1,11 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Blog</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal K</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Hello, world!</h1>
-  <p>My minimal blog is live.</p>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <header class="p-6 text-center border-b border-gray-200">
+    <h1 class="text-3xl font-bold">Minimal K</h1>
+    <p class="text-gray-500">Thoughts, notes, and ideas</p>
+  </header>
+
+  <main id="post-list" class="max-w-2xl mx-auto p-6 space-y-4">
+    <p class="text-center text-gray-500">Loading posts...</p>
+  </main>
+
+  <script>
+    async function loadPosts() {
+      try {
+        const username = "ikenith"; // <-- change this
+        const repo = username + ".github.io";
+        const folder = "posts";
+
+        const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${folder}`);
+        const files = await res.json();
+
+        const listEl = document.getElementById("post-list");
+        listEl.innerHTML = "";
+
+        files.forEach(file => {
+          if (file.name.endsWith(".md")) {
+            const postTitle = file.name.replace(".md", "").replace(/-/g, " ");
+            const postLink = `post.html?file=${file.name}`;
+            const el = document.createElement("a");
+            el.href = postLink;
+            el.className = "block p-4 border border-gray-200 rounded hover:bg-gray-100";
+            el.textContent = postTitle;
+            listEl.appendChild(el);
+          }
+        });
+      } catch (err) {
+        console.error(err);
+        document.getElementById("post-list").innerHTML = "<p class='text-center text-red-500'>Failed to load posts.</p>";
+      }
+    }
+    loadPosts();
+  </script>
 </body>
 </html>
