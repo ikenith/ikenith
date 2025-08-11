@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Post</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 1rem;
+  }
+  pre {
+    background: #f4f4f4;
+    padding: 0.5rem;
+    overflow-x: auto;
+  }
+</style>
+</head>
+<body>
+
+<div id="content">Loading...</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const post = urlParams.get('post');
+
+  if (post) {
+    fetch(`posts/${post}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Post not found");
+        return res.text();
+      })
+      .then(md => {
+        document.getElementById('content').innerHTML = marked.parse(md);
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = `<p style="color:red">${err.message}</p>`;
+      });
+  } else {
+    document.getElementById('content').innerHTML = "<p>No post specified.</p>";
+  }
+</script>
+
+</body>
+</html>
