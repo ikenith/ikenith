@@ -10,26 +10,35 @@
       theme: {
         extend: {
           colors: {
-            primary: '#6366f1',
+            primary: '#6366f1', // Indigo
+            secondary: '#8b5cf6', // Purple-ish for accent
+            background: '#121212', // Dark background
+            card: '#1e1e2f', // Dark card background
+            footer: '#222233', // Slightly lighter footer bg
           },
+          borderRadius: {
+            'xl': '1rem', // bigger rounded corners for curvy feel
+          }
         },
       },
     };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="dark:bg-primary dark:text-gray-100 bg-white text-gray-900 min-h-screen flex flex-col">
-  <header class="py-8 text-center">
-    <h1 class="text-4xl font-extrabold">Minimal K</h1>
-    <p class="text-indigo-300 mt-2">Thoughts, notes, and ideas</p>
+<body class="dark bg-background text-gray-300 min-h-screen flex flex-col">
+  <header class="py-12 text-center px-4">
+    <h1 class="text-5xl font-extrabold text-primary select-none">Minimal K</h1>
+    <p class="mt-2 text-secondary text-lg font-medium select-none">Thoughts, notes, and ideas</p>
   </header>
 
-  <main class="flex-grow max-w-2xl mx-auto px-4 w-full">
-    <div id="posts" class="space-y-4 text-center text-indigo-200">Loading posts...</div>
+  <main class="flex-grow max-w-3xl mx-auto w-full px-6">
+    <div id="posts" class="space-y-6 text-center text-gray-300">
+      Loading posts...
+    </div>
   </main>
 
-  <footer class="mt-12 py-6 text-center text-indigo-300 border-t border-indigo-600 rounded-t-lg">
-    &copy; Kamal 2025
+  <footer class="mt-16 py-6 text-center text-secondary bg-footer rounded-t-xl select-none">
+    &copy; <a href="https://github.com/ikenith" target="_blank" rel="noopener noreferrer" class="underline hover:text-primary">@ikenith</a> 2025
   </footer>
 
   <script>
@@ -53,7 +62,15 @@
           if (file.name.endsWith(".md")) {
             const postLink = document.createElement("a");
             postLink.href = `post.html?file=${encodeURIComponent(file.path)}`;
-            postLink.className = "block p-4 bg-gray-800 rounded shadow hover:bg-gray-700 text-white transition";
+            postLink.className = `
+              block p-5 bg-card rounded-xl shadow-md
+              hover:bg-secondary hover:text-white
+              transition-colors duration-300
+              cursor-pointer
+              font-semibold
+              select-none
+              max-w-md mx-auto
+              `;
             postLink.textContent = file.name.replace(".md", "");
             postsContainer.appendChild(postLink);
           }
