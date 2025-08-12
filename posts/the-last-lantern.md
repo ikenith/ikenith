@@ -1,6 +1,5 @@
 ---
-title: "The Last Lantern"
-date: "2025-07-12"
+Date: "2025-07-12"
 ---
 
 # The Last Lantern
