@@ -1,5 +1,6 @@
 ---
-Date: "2025-07-12"
+date: "2025-07-12"
+title: "The Last Lantern"
 ---
 
 # The Last Lantern
