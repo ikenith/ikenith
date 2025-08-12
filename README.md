@@ -42,11 +42,11 @@ Beneath the calm exterior lies a small but sharp set of tools:
 
 ## 📂 **Project Structure**  
 
-├── 📜 index.html # The gate to the hideout (main blog page)
-├── 📜 post.html # The inner sanctum of individual posts
-├── 📁 posts/ # Your markdown archives
-├── 📁 assets/ # Fonts, icons, vibes
-└── 📜 README.md # This very file
+ - 📜 index.html # The gate to the hideout (main blog page)
+ - 📜 post.html # The inner sanctum of individual posts
+ - 📁 posts/ # Your markdown archives
+ - 📁 assets/ # Fonts, icons, vibes
+ - 📜 README.md # This very file
 
 
 ---
