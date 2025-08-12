@@ -15,7 +15,7 @@ At first, she thought it was the wind. But then she remembered: *Lanterns never 
 
 She took it down from its hook and held it close. The flame inside trembled as if afraid.
 
-> *"Why are you afraid?"* she whispered.
+*"Why are you afraid?"* she whispered.
 
 The flame didn’t answer — but it leaned toward the forest.
 
@@ -31,7 +31,7 @@ Her lantern’s flame leapt higher, as if greeting an old friend.
 ## Chapter 3 — The Choice
 From the shadows, a voice like rustling leaves spoke:
 
-> *"Your world is losing its light. You may keep the last flame… or give it back to me so the forest can make more."*
+*"Your world is losing its light. You may keep the last flame… or give it back to me so the forest can make more."*
 
 Elara looked at her lantern. She thought of her home, her people, the comfort of the light in the dark.
 
