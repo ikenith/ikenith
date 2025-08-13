@@ -1,7 +1,7 @@
 ---
 title: "The Day the Cat Hacked My Laptop"
 date: "2025-08-13"
-image: "https://placekitten.com/400/200"
+image: "https://unsplash.com/photos/brown-tabby-kitten-sitting-on-floor-nKC772R_qog"
 ---
 
 # The Day the Cat Hacked My Laptop
@@ -12,7 +12,7 @@ It was a **dark** and *stormy* night. My cat, **Whiskers**, sat on my keyboard, 
 
 > "What could possibly go wrong?" I thought.
 
-## Chapter 1 — The Suspicious Paw
+## Chapter 1 - The Suspicious Paw
 
 Suddenly, Whiskers pressed a mysterious combination:
 
@@ -27,7 +27,7 @@ Whiskers typed:
 echo "All your files belong to meow!" > README.md
 ```
 
-## Chapter 2 — The Evidence
+## Chapter 2 - The Evidence
 
 I checked the logs. There it was:
 
@@ -35,9 +35,9 @@ I checked the logs. There it was:
 - **Action:** Initiated global cat takeover
 - **Status:** _Purrfectly executed_
 
-![Whiskers plotting](https://placekitten.com/400/200)
-
-## Chapter 3 — The Aftermath
+![Whiskers plotting](https://unsplash.com/photos/brown-tabby-kitten-sitting-on-floor-nKC772R_qog)
+------
+## Chapter 3 - The Aftermath
 
 I tried to regain control. I typed:
 
@@ -61,4 +61,4 @@ Now, every time I open my laptop, I see this message:
 ---
 
 *The End*
-![A kitten](https://placekitten.com/400/200)
+![A kitten](https://unsplash.com/photos/brown-tabby-kitten-sitting-on-floor-nKC772R_qog)
