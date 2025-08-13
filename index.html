@@ -9,134 +9,150 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: '#0ea5e9',   // cyan
-            accent: '#a21caf',    // purple
-            bgA: '#0a0a0f',       // deep black
-            card: '#18181b',      // card surface
-            borderFade: '#0ea5e980', // faded cyan
-            footer: '#0b1220'
-          },
-          borderRadius: {
-            'xl': '1rem',
-            '2xl': '1.5rem'
-          }
-        }
-      }
-    }
-  </script>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    :root {
-      color-scheme: dark;
-    }
-    html, body { height: 100%; }
     body {
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: #0a0a0f;
+      color: #e5e7eb;
+      font-family: Inter, system-ui, sans-serif;
     }
-    .card-shadow {
-      box-shadow: 0 6px 24px rgba(2, 6, 23, 0.55);
+
+    .main-title {
+      font-family: Poppins, Inter, sans-serif;
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
     }
-    .header-gradient {
-      background: linear-gradient(90deg, #0ea5e9 0%, #a21caf 100%);
-      opacity: 0.12;
-      filter: blur(12px);
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+
+    .post-list {
+      max-width: 700px;
+      margin: 2rem auto;
     }
+
     .post-card {
-      border: 1.5px solid rgba(255,255,255,0.03);
-      transition: border-color 0.2s;
+      background: #18181b;
+      border-radius: 1.2rem;
+      padding: 1.3rem 2rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.2s;
     }
+
     .post-card:hover {
-      border-color: #fafafa80;
+      background: #23272a;
+    }
+
+    .post-title-link {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      font-family: Poppins, Inter, sans-serif;
+      transition: color 0.2s;
+    }
+
+    .post-title-link:hover {
+      color: #0ea5e9;
+    }
+
+    .post-date {
+      color: #bcbcbc;
+      font-size: 1rem;
+      margin-top: 0.2rem;
+      font-family: Inter, sans-serif;
     }
   </style>
 </head>
 
-<body class="dark bg-bgA text-slate-300 min-h-screen flex flex-col">
-
-  <!-- Header (minimal, no SVG) -->
-  <header class="relative py-12 px-6 text-center overflow-visible">
-    <div class="header-gradient"></div>
-    <h1 class="relative text-5xl md:text-6xl font-poppins font-extrabold text-white select-none z-10"
-      style="font-family: Poppins, Inter, sans-serif;">The 01</h1>
-    <p class="relative mt-2 text-primary/80 select-none z-10">Thoughts, notes, and research</p>
-  </header>
-
-  <!-- Main content -->
-  <main class="flex-grow max-w-3xl w-full mx-auto px-6 pb-10">
-    <div id="posts" class="space-y-6 mt-6">
-      <!-- fallback while JS loads -->
-      <div class="mx-auto max-w-md p-6 bg-card rounded-2xl post-card card-shadow text-center">
-        <div class="animate-pulse h-4 bg-white/6 rounded w-2/3 mx-auto mb-4"></div>
-        <div class="animate-pulse h-3 bg-white/6 rounded w-1/3 mx-auto"></div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer (unchanged) -->
-  <footer class="mt-8 px-6">
-    <div class="max-w-3xl mx-auto bg-footer/30 backdrop-blur-sm rounded-t-2xl py-5 text-center border border-white/4">
-      <a href="https://github.com/ikenith" target="_blank" rel="noopener noreferrer"
-        class="text-indigo-300 hover:text-primary transition">@ikenith</a>
-    </div>
-  </footer>
-
+<body>
+  <div class="main-title">The 01</div>
+  <div id="posts" class="post-list"></div>
   <script>
-    // repo settings — update if needed
     const repo = "ikenith/ikenith.github.io";
     const branch = "main";
 
-    // helper to create post card
-    function makeCard(name, path) {
-      const a = document.createElement("a");
-      a.href = `post.html?file=${encodeURIComponent(path)}`;
-      a.className = "block max-w-md mx-auto p-5 rounded-2xl bg-[rgba(255,255,255,0.02)] post-card card-shadow";
-      a.setAttribute("aria-label", name.replace('.md', ''));
-      // inner layout - title centered
-      const t = document.createElement("div");
-      t.className = "text-center font-semibold text-slate-100";
-      t.textContent = name.replace(".md", "");
-      a.appendChild(t);
-      // small label area (optional)
-      const sub = document.createElement("div");
-      sub.className = "mt-2 text-sm text-primary/70 text-center";
-      sub.textContent = "Read post →";
-      a.appendChild(sub);
-      return a;
+    // Helper to parse YAML frontmatter
+    function parseFrontmatter(md) {
+      const match = md.match(/^---\s*([\s\S]*?)---/);
+      let meta = {};
+      if (match) {
+        const lines = match[1].split('\n');
+        lines.forEach(line => {
+          const [key, ...rest] = line.split(':');
+          if (key && rest.length) {
+            meta[key.trim()] = rest.join(':').trim().replace(/^"|"$/g, '');
+          }
+        });
+      }
+      return meta;
     }
 
     async function loadPosts() {
       const postsContainer = document.getElementById("posts");
+      postsContainer.innerHTML = `<div style="text-align:center;color:#bcbcbc;">Loading...</div>`;
       try {
         const res = await fetch(`https://api.github.com/repos/${repo}/contents/posts?ref=${branch}`);
         if (!res.ok) throw new Error("GitHub API request failed: " + res.status);
         const files = await res.json();
 
-        if (!Array.isArray(files) || files.length === 0) {
-          postsContainer.innerHTML = `<p class="text-center text-sm text-primary/60">No posts yet — create a <code>posts/</code> folder and add .md files.</p>`;
-          return;
-        }
+        // Only .md files
+        const mdFiles = files.filter(f => f.name.endsWith(".md"));
+
+        // Fetch metadata for each post
+        const posts = await Promise.all(mdFiles.map(async file => {
+          const res = await fetch(`https://api.github.com/repos/${repo}/contents/${file.path}?ref=${branch}`);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const md = atob(data.content.replace(/\n/g, ''));
+          const meta = parseFrontmatter(md);
+          return {
+            title: meta.title || file.name.replace(".md", ""),
+            date: meta.date || "",
+            image: meta.image || "",
+            path: file.path
+          };
+        }));
+
+        // Sort by date descending (newest first)
+        posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
         postsContainer.innerHTML = "";
-        files
-          .filter(f => f.name.endsWith(".md"))
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .forEach(file => postsContainer.appendChild(makeCard(file.name, file.path)));
+        posts.forEach(post => {
+          if (!post) return;
+          postsContainer.innerHTML += `
+            <div class="post-card">
+              ${post.image ? `
+                <div style="
+                  width: 100%;
+                  max-width: 360px;
+                  margin-bottom: 1.1rem;
+                  border-radius: 1.1rem;
+                  overflow: hidden;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  background: #23272a;
+                ">
+                  <img src="${post.image}" alt="Post image" style="width: 100%; height: 180px; object-fit: cover; border-radius: 1.1rem;">
+                </div>
+              ` : ''}
+              <a class="post-title-link" href="post.html?file=${encodeURIComponent(post.path)}">${post.title}</a>
+              <div class="post-date">${post.date}</div>
+            </div>
+          `;
+        });
+
+        if (posts.length === 0) {
+          postsContainer.innerHTML = `<div style="text-align:center;color:#bcbcbc;">No posts yet.</div>`;
+        }
       } catch (err) {
-        console.error(err);
-        postsContainer.innerHTML = `<p class="text-center text-sm text-rose-400">Failed to load posts. Check repo name/branch or GitHub API rate limits.</p>`;
+        postsContainer.innerHTML = `<div style="text-align:center;color:#f87171;">Failed to load posts.</div>`;
       }
     }
 
