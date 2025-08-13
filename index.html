@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The 01</title>
+  <link rel="icon" type="image/x-icon" href="logo.ico">
 
-  <!-- Fonts -->
+  <!-- Fonts & Tailwind -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -29,7 +30,7 @@
     }
 
     .post-list {
-      max-width: 700px;
+      max-width: 900px;
       margin: 2rem auto;
     }
 
@@ -70,19 +71,48 @@
       margin-top: 0.2rem;
       font-family: Inter, sans-serif;
     }
+
+    @media (max-width: 600px) {
+      .main-title {
+        font-size: 2rem;
+      }
+
+      .post-card {
+        padding: 1rem 0.7rem;
+      }
+
+      .post-list {
+        padding: 0 0.5rem;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <!-- Logo at top right -->
+  <div class="fixed top-6 right-8 z-50 flex flex-col items-center cursor-pointer"
+    onclick="window.location.href='index.html'">
+    <img src="logo.png" alt="Logo" class="h-14 w-14 shadow-lg" />
+    <span class="mt-1 text-xs text-[#bcbcbc] tracking-wide">Root Browser</span>
+  </div>
+
+  <!-- Main title and subheading -->
   <div class="main-title">The 01</div>
+  <div class="text-center text-[#bcbcbc] text-sm mb-4">
+    Thoughts, Notes, and Research
+  </div>
+
+  <!-- Posts list -->
   <div id="posts" class="post-list"></div>
 
   <script>
+    // --- CONFIG ---
     const repo = "ikenith/ikenith.github.io";
     const branch = "main";
     const CACHE_KEY = "cached_posts_v1";
     const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
 
+    // --- HELPERS ---
     function parseFrontmatter(md) {
       const match = md.match(/^---\s*([\s\S]*?)\s*---/);
       if (!match) return {};
