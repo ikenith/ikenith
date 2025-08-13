@@ -1,10 +1,9 @@
 ---
 title: "The Day the Cat Hacked My Laptop"
 date: "2025-08-13"
-image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d"
+image: "https://images.unsplash.com/photo-1671992410328-2da79e19ab0a?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
-# The Day the Cat Hacked My Laptop
 
 ## Prologue
 
@@ -35,7 +34,7 @@ I checked the logs. There it was:
 - **Action:** Initiated global cat takeover
 - **Status:** _Purrfectly executed_
 
-![Whiskers plotting](https://images.unsplash.com/photo-1518717758536-85ae29035b6d)
+![Whiskers plotting](https://images.unsplash.com/photo-1671992410328-2da79e19ab0a?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
 ------
 
@@ -63,5 +62,3 @@ Now, every time I open my laptop, I see this message:
 ---
 
 *The End*
-
-![A kitten](https://images.unsplash.com/photo-1518717758536-85ae29035b6d)

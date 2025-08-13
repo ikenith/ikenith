@@ -55,6 +55,9 @@
       text-decoration: none;
       font-family: Poppins, Inter, sans-serif;
       transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
     }
 
     .post-title-link:hover {
@@ -142,7 +145,10 @@
                   <img src="${post.image}" alt="Post image" style="width: 100%; height: 180px; object-fit: cover; border-radius: 1.1rem;">
                 </div>
               ` : ''}
-              <a class="post-title-link" href="post.html?file=${encodeURIComponent(post.path)}">${post.title}</a>
+              <a class="post-title-link flex items-center gap-2 group" href="post.html?file=${encodeURIComponent(post.path)}">
+                <span>${post.title}</span>
+                <span class="text-xl text-[#0ea5e9] group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </a>
               <div class="post-date">${post.date}</div>
             </div>
           `;
