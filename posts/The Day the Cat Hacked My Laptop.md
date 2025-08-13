@@ -1,7 +1,7 @@
 ---
 title: "The Day the Cat Hacked My Laptop"
 date: "2025-08-13"
-image: "https://unsplash.com/photos/brown-tabby-kitten-sitting-on-floor-nKC772R_qog"
+image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d"
 ---
 
 # The Day the Cat Hacked My Laptop
@@ -35,8 +35,10 @@ I checked the logs. There it was:
 - **Action:** Initiated global cat takeover
 - **Status:** _Purrfectly executed_
 
-![Whiskers plotting](https://unsplash.com/photos/brown-tabby-kitten-sitting-on-floor-nKC772R_qog)
+![Whiskers plotting](https://images.unsplash.com/photo-1518717758536-85ae29035b6d)
+
 ------
+
 ## Chapter 3 - The Aftermath
 
 I tried to regain control. I typed:
@@ -61,4 +63,5 @@ Now, every time I open my laptop, I see this message:
 ---
 
 *The End*
-![A kitten](https://unsplash.com/photos/brown-tabby-kitten-sitting-on-floor-nKC772R_qog)
+
+![A kitten](https://images.unsplash.com/photo-1518717758536-85ae29035b6d)
