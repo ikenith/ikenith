@@ -136,18 +136,26 @@
       </div>
     </div>
   </main>
-
   <script>
-    // parse frontmatter
+    // Get ?file=... from URL
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+    const repo = "ikenith/ikenith.github.io";
+    const branch = "main";
+
     function parseFrontmatter(md) {
-      const m = md.match(/^---\s*([\s\S]*?)\s*---/);
-      let meta = {}, body = md;
-      if (m) {
-        m[1].split("\n").forEach(line => {
-          const [k, ...rest] = line.split(":");
-          if (k && rest.length) meta[k.trim()] = rest.join(":").trim().replace(/^"|"$/g, "");
+      const match = md.match(/^---\s*([\s\S]*?)---/);
+      let meta = {};
+      let body = md;
+      if (match) {
+        const lines = match[1].split('\n');
+        lines.forEach(line => {
+          const [key, ...rest] = line.split(':');
+          if (key && rest.length) {
+            meta[key.trim()] = rest.join(':').trim().replace(/^"|"$/g, '');
+          }
         });
-        body = md.slice(m[0].length).trim();
+        body = md.slice(match[0].length).trim();
       }
       return { meta, body };
     }
@@ -157,36 +165,30 @@
       const markdownDiv = document.getElementById('markdown');
       metaDiv.innerHTML = '';
       markdownDiv.innerHTML = '<div class="text-center text-primary/70">Loading...</div>';
-
-      const params = new URLSearchParams(location.search);
-      const file = params.get('file'); // e.g. posts/my-post.md
       if (!file) {
         markdownDiv.innerHTML = "<div class='text-center text-primary/70'>No post specified.</div>";
         return;
       }
-
       try {
-        // fetch markdown directly from your site (no API)
-        const res = await fetch(file, { cache: "no-cache" });
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${file}?ref=${branch}`);
         if (!res.ok) throw new Error("Post not found");
-        const md = await res.text();
+        const data = await res.json();
+        const md = atob(data.content.replace(/\n/g, ''));
         const { meta, body } = parseFrontmatter(md);
 
-        // meta
-        let html = '';
-        if (meta.image) html += `<div class="post-image"><img src="${meta.image}" alt="Post image"></div>`;
-        if (meta.title) html += `<div class="post-title">${meta.title}</div>`;
-        if (meta.date) html += `<div class="post-date">${meta.date}</div>`;
-        metaDiv.innerHTML = html;
+        // Render title, date, and image
+        let metaHtml = '';
+        if (meta.image) metaHtml += `<div class="post-image"><img src="${meta.image}" alt="Post image"></div>`;
+        if (meta.title) metaHtml += `<div class="post-title">${meta.title}</div>`;
+        if (meta.date) metaHtml += `<div class="post-date">${meta.date}</div>`;
+        metaDiv.innerHTML = metaHtml;
 
-        // markdown
+        // Render markdown
         markdownDiv.innerHTML = marked.parse(body);
       } catch (err) {
         markdownDiv.innerHTML = "<div class='text-center text-primary/70'>Failed to load post.</div>";
-        console.error(err);
       }
     }
-
     loadPost();
   </script>
 </body>
