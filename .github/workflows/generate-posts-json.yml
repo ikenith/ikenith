@@ -1,4 +1,6 @@
 name: Generate posts.json
+permissions:
+  contents: write
 
 on:
   push:
@@ -29,10 +31,10 @@ jobs:
           done
           echo "]" >> posts/posts.json
 
-      - name: Commit posts.json
+      - name: Commit and push changes
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/posts.json
-          git commit -m "Update posts.json" || echo "No changes"
+          git commit -m "Update posts.json" || echo "No changes to commit"
           git push
