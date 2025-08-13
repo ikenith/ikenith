@@ -29,7 +29,7 @@ Her lantern's flame leapt higher' as if greeting an old friend.
 ## Chapter 3 &mdash; The Choice
 From the shadows' a voice like rustling leaves spoke:
 
-*"Your world is losing its light. You may keep the last flame… or give it back to me so the forest can make more."*
+*"Your world is losing its light. You may keep the last flame... or give it back to me so the forest can make more."*
 
 Elara looked at her lantern. She thought of her home' her people' the comfort of the light in the dark.
 
