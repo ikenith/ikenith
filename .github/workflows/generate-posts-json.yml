@@ -1,0 +1,38 @@
+name: Generate posts.json
+
+on:
+  push:
+    paths:
+      - 'posts/*.md'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Generate posts.json
+        run: |
+          echo "[" > posts/posts.json
+          first=true
+          for file in posts/*.md; do
+            if [ "$file" != "posts/*.md" ]; then
+              title=$(basename "$file" .md)
+              if [ "$first" = true ]; then
+                first=false
+              else
+                echo "," >> posts/posts.json
+              fi
+              echo "{\"title\": \"${title}\", \"path\": \"$file\"}" >> posts/posts.json
+            fi
+          done
+          echo "]" >> posts/posts.json
+
+      - name: Commit posts.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add posts/posts.json
+          git commit -m "Update posts.json" || echo "No changes"
+          git push
