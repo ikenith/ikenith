@@ -1,0 +1,228 @@
+:root {
+    --bg: #07070a;
+    --surface: #0f1115;
+    --muted: #9aa0a6;
+    --text: #e6eef0;
+    --accent: #22d3ee;
+    --accent-2: #10b981;
+    --glass: rgba(255, 255, 255, 0.03);
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-size: 16px;
+    background: linear-gradient(180deg, var(--bg), #060608);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 18px
+}
+
+/* header */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: linear-gradient(180deg, rgba(6, 6, 8, 0.6), transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.06)
+}
+
+.brand-text .name {
+    font-weight: 700;
+    letter-spacing: -0.02em
+}
+
+.brand-text .tag {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px
+}
+
+/* nav */
+.main-nav {
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.nav-link {
+    padding: 8px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    transition: all .16s
+}
+
+.nav-link:hover {
+    color: var(--text);
+    background: var(--glass)
+}
+
+.nav-link.cta {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #051012;
+    font-weight: 700;
+    padding: 8px 14px;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.06)
+}
+
+/* hero */
+.hero {
+    padding: 44px 0
+}
+
+.hero-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(2, 6, 23, 0.6)
+}
+
+.hero-title {
+    font-size: clamp(26px, 4vw, 40px);
+    margin: 0 0 8px
+}
+
+.hero-lead {
+    color: var(--muted);
+    margin: 0 0 18px;
+    line-height: 1.5
+}
+
+.hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600
+}
+
+.btn:hover {
+    transform: translateY(-2px)
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    color: var(--muted)
+}
+
+.btn.accent {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #071212;
+    border: none
+}
+
+/* about */
+.about {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.02)
+}
+
+.about h2 {
+    margin: 0 0 6px
+}
+
+.about .muted {
+    color: var(--muted)
+}
+
+/* footer */
+.site-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 18px 0;
+    margin-top: 36px
+}
+
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 13px
+}
+
+.footer-links a {
+    color: var(--muted);
+    margin-left: 12px;
+    text-decoration: none
+}
+
+.footer-links a:hover {
+    color: var(--text)
+}
+
+/* responsiveness */
+@media (max-width:720px) {
+    .header-inner {
+        padding: 12px 0
+    }
+
+    .main-nav {
+        gap: 8px
+    }
+
+    .brand-text .tag {
+        display: none
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px
+    }
+}
