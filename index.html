@@ -5,18 +5,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Ikenith — experiments · The 01 · Fluxdo</title>
-    <link rel="icon" href="assets/logo.svg" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <meta name="description"
+        content="Ikenith — experiments, notes, and minimal tools. Explore Experiments, The 01 (blog), and Fluxdo (todo app)." />
+    <link rel="icon" href="/assets/img/favicon.svg" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 
 <body class="site-root">
     <header class="site-header">
         <div class="container header-inner">
             <a class="brand" href="/">
-                <img src="assets/logo.svg" class="logo" alt="Ikenith logo" />
+                <div class="logo-placeholder main-logo" aria-hidden="true">IK</div>
                 <div class="brand-text">
                     <div class="name">Ikenith</div>
-                    <div class="tag">flow & experiments</div>
+                    <div class="tag">Flow & experiments</div>
                 </div>
             </a>
 
@@ -25,14 +27,16 @@
                 <a class="nav-link" href="/the01/">The 01</a>
                 <a class="nav-link cta" href="/fluxdo/">Fluxdo</a>
             </nav>
+
+            <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
         </div>
     </header>
 
     <main class="container hero">
         <div class="hero-card">
-            <h1 class="hero-title">Hi — I'm Ikenith.</h1>
-            <p class="hero-lead">I build small experiments, write short essays in <strong>The 01</strong>, and keep
-                things tidy with Fluxdo — a minimal, dark, rounded todo experience.</p>
+            <h1 class="hero-title">Hi — I’m Ikenith.</h1>
+            <p class="hero-lead">I build small experiments, record my thoughts and notes in <strong>The 01</strong>, and
+                keep projects tidy with Fluxdo — a minimal, dark, rounded todo experience.</p>
 
             <div class="hero-ctas">
                 <a class="btn" href="/the01/">Explore The 01</a>
@@ -40,10 +44,36 @@
                 <a class="btn accent" href="/fluxdo/">Open Fluxdo</a>
             </div>
 
+            <section class="cards-grid">
+                <a class="card" href="/experiments/">
+                    <div class="card-logo logo-placeholder">E</div>
+                    <div class="card-body">
+                        <h3>Experiments</h3>
+                        <p class="muted">Mini projects, UI experiments, and prototypes (where Fluxdo lives).</p>
+                    </div>
+                </a>
+
+                <a class="card" href="/the01/">
+                    <div class="card-logo logo-placeholder">01</div>
+                    <div class="card-body">
+                        <h3>The 01</h3>
+                        <p class="muted">Short essays, notes, and research — everyday thinking in small bites.</p>
+                    </div>
+                </a>
+
+                <a class="card" href="/fluxdo/">
+                    <div class="card-logo logo-placeholder">F</div>
+                    <div class="card-body">
+                        <h3>Fluxdo</h3>
+                        <p class="muted">A focused, minimal todo app — dark, rounded, and fast.</p>
+                    </div>
+                </a>
+            </section>
+
             <section class="about">
                 <h2>About</h2>
-                <p class="muted">Short personal blurb goes here. We can edit this together — what do you want the first
-                    paragraph to say about you or this site?</p>
+                <p class="muted">This site is a collection of experiments, notes, and small tools. We'll keep things
+                    minimal, thoughtful, and dark-themed — replace this copy with your preferred intro text.</p>
             </section>
         </div>
     </main>
@@ -60,7 +90,20 @@
     </footer>
 
     <script>
+        // set year
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // small nav toggle for mobile (progressive enhancement)
+        (function () {
+            const btn = document.querySelector('.nav-toggle');
+            const nav = document.querySelector('.main-nav');
+            if (!btn || !nav) return;
+            btn.addEventListener('click', () => {
+                const open = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!open));
+                nav.classList.toggle('nav-open');
+            });
+        })();
     </script>
 </body>
 
