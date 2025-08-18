@@ -1,110 +1,226 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Ikenith — experiments · The 01 · Fluxdo</title>
-    <meta name="description"
-        content="Ikenith — experiments, notes, and minimal tools. Explore Experiments, The 01 (blog), and Fluxdo (todo app)." />
-    <link rel="icon" href="/assets/img/favicon.svg" />
-    <link rel="stylesheet" href="/assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The 01</title>
+  <link rel="icon" type="image/x-icon" href="logo.ico">
+
+  <!-- Fonts & Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: #0a0a0f;
+      color: #e5e7eb;
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    .main-title {
+      font-family: Poppins, Inter, sans-serif;
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-list {
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+
+    .post-card {
+      background: #18181b;
+      border-radius: 1.2rem;
+      padding: 1.3rem 2rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.2s;
+    }
+
+    .post-card:hover {
+      background: #23272a;
+    }
+
+    .post-title-link {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      font-family: Poppins, Inter, sans-serif;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .post-title-link:hover {
+      color: #0ea5e9;
+    }
+
+    .post-date {
+      color: #bcbcbc;
+      font-size: 1rem;
+      margin-top: 0.2rem;
+      font-family: Inter, sans-serif;
+    }
+
+    @media (max-width: 600px) {
+      .main-title {
+        font-size: 2rem;
+      }
+
+      .post-card {
+        padding: 1rem 0.7rem;
+      }
+
+      .post-list {
+        padding: 0 0.5rem;
+      }
+    }
+  </style>
 </head>
 
-<body class="site-root">
-    <header class="site-header">
-        <div class="container header-inner">
-            <a class="brand" href="/">
-                <div class="logo-placeholder main-logo" aria-hidden="true">IK</div>
-                <div class="brand-text">
-                    <div class="name">Ikenith</div>
-                    <div class="tag">Flow & experiments</div>
-                </div>
+<body>
+  <!-- Logo at top right -->
+  <div class="fixed top-6 right-8 z-50 flex flex-col items-center cursor-pointer"
+    onclick="window.location.href='index.html'">
+    <img src="logo.png" alt="Logo" class="h-14 w-14 shadow-lg" />
+    <span class="mt-1 text-xs text-[#bcbcbc] tracking-wide">Root Browser</span>
+  </div>
+
+  <!-- Main title and subheading -->
+  <div class="main-title">The 01</div>
+  <div class="text-center text-[#bcbcbc] text-sm mb-4">
+    Thoughts, Notes, and Research
+  </div>
+
+  <!-- Posts list -->
+  <div id="posts" class="post-list"></div>
+
+  <script>
+    // --- CONFIG ---
+    const repo = "ikenith/ikenith.github.io";
+    const branch = "main";
+    const CACHE_KEY = "cached_posts_v1";
+    const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
+
+    // --- HELPERS ---
+    function parseFrontmatter(md) {
+      const match = md.match(/^---\s*([\s\S]*?)\s*---/);
+      if (!match) return {};
+      return match[1].split("\n").reduce((meta, line) => {
+        const [key, ...rest] = line.split(":");
+        if (key && rest.length) {
+          meta[key.trim()] = rest.join(":").trim().replace(/^"|"$/g, "");
+        }
+        return meta;
+      }, {});
+    }
+
+    function renderPosts(posts) {
+      const postsContainer = document.getElementById("posts");
+      postsContainer.innerHTML = posts.length
+        ? posts.map(post => `
+          <div class="post-card">
+            ${post.image ? `
+              <div style="
+                width: 100%;
+                max-width: 360px;
+                margin-bottom: 1.1rem;
+                border-radius: 1.1rem;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #23272a;
+              ">
+                <img src="${post.image}" alt="Post image" style="width: 100%; height: 180px; object-fit: cover; border-radius: 1.1rem;">
+              </div>
+            ` : ""}
+            <a class="post-title-link flex items-center gap-2 group" href="post.html?file=${encodeURIComponent(post.path)}">
+              <span>${post.title}</span>
+              <span class="text-xl text-[#0ea5e9] group-hover:translate-x-1 transition-transform">&rarr;</span>
             </a>
+            <div class="post-date">${post.date}</div>
+          </div>
+        `).join("")
+        : `<div style="text-align:center;color:#bcbcbc;">No posts yet.</div>`;
+    }
 
-            <nav class="main-nav" aria-label="Main navigation">
-                <a class="nav-link" href="/experiments/">Experiments</a>
-                <a class="nav-link" href="/the01/">The 01</a>
-                <a class="nav-link cta" href="/fluxdo/">Fluxdo</a>
-            </nav>
+    async function fetchPostsFromGitHub() {
+      const res = await fetch(`https://api.github.com/repos/${repo}/contents/posts?ref=${branch}`);
+      if (!res.ok) throw new Error("GitHub API request failed: " + res.status);
+      const files = await res.json();
+      const mdFiles = files.filter(f => f.name.endsWith(".md"));
 
-            <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
-        </div>
-    </header>
+      const posts = (await Promise.all(mdFiles.map(async file => {
+        try {
+          const fileRes = await fetch(`https://api.github.com/repos/${repo}/contents/${file.path}?ref=${branch}`);
+          if (!fileRes.ok) return null;
+          const data = await fileRes.json();
+          const md = atob(data.content.replace(/\n/g, ""));
+          const meta = parseFrontmatter(md);
+          return {
+            title: meta.title || file.name.replace(".md", ""),
+            date: meta.date || "",
+            image: meta.image || "",
+            path: file.path
+          };
+        } catch {
+          return null;
+        }
+      }))).filter(Boolean);
 
-    <main class="container hero">
-        <div class="hero-card">
-            <h1 class="hero-title">Hi — I’m Ikenith.</h1>
-            <p class="hero-lead">I build small experiments, record my thoughts and notes in <strong>The 01</strong>, and
-                keep projects tidy with Fluxdo — a minimal, dark, rounded todo experience.</p>
+      posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+      return posts;
+    }
 
-            <div class="hero-ctas">
-                <a class="btn" href="/the01/">Explore The 01</a>
-                <a class="btn ghost" href="/experiments/">See Experiments</a>
-                <a class="btn accent" href="/fluxdo/">Open Fluxdo</a>
-            </div>
+    async function loadPosts() {
+      const postsContainer = document.getElementById("posts");
+      postsContainer.innerHTML = `<div style="text-align:center;color:#bcbcbc;">Loading...</div>`;
 
-            <section class="cards-grid">
-                <a class="card" href="/experiments/">
-                    <div class="card-logo logo-placeholder">E</div>
-                    <div class="card-body">
-                        <h3>Experiments</h3>
-                        <p class="muted">Mini projects, UI experiments, and prototypes (where Fluxdo lives).</p>
-                    </div>
-                </a>
+      // Check cache
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { posts, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_DURATION) {
+          renderPosts(posts);
+          return; // Use cached data
+        }
+      }
 
-                <a class="card" href="/the01/">
-                    <div class="card-logo logo-placeholder">01</div>
-                    <div class="card-body">
-                        <h3>The 01</h3>
-                        <p class="muted">Short essays, notes, and research — everyday thinking in small bites.</p>
-                    </div>
-                </a>
+      try {
+        const posts = await fetchPostsFromGitHub();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ posts, timestamp: Date.now() }));
+        renderPosts(posts);
+      } catch (err) {
+        postsContainer.innerHTML = `<div style="text-align:center;color:#f87171;">Failed to load posts.</div>`;
+      }
+    }
 
-                <a class="card" href="/fluxdo/">
-                    <div class="card-logo logo-placeholder">F</div>
-                    <div class="card-body">
-                        <h3>Fluxdo</h3>
-                        <p class="muted">A focused, minimal todo app — dark, rounded, and fast.</p>
-                    </div>
-                </a>
-            </section>
+    loadPosts();
+  </script>
 
-            <section class="about">
-                <h2>About</h2>
-                <p class="muted">This site is a collection of experiments, notes, and small tools. We'll keep things
-                    minimal, thoughtful, and dark-themed — replace this copy with your preferred intro text.</p>
-            </section>
-        </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <div class="copyright">© <span id="year"></span> Ikenith · Crafted with minimal dark design</div>
-            <div class="footer-links">
-                <a href="/the01/">The 01</a>
-                <a href="/experiments/">Experiments</a>
-                <a href="/fluxdo/">Fluxdo</a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // set year
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // small nav toggle for mobile (progressive enhancement)
-        (function () {
-            const btn = document.querySelector('.nav-toggle');
-            const nav = document.querySelector('.main-nav');
-            if (!btn || !nav) return;
-            btn.addEventListener('click', () => {
-                const open = btn.getAttribute('aria-expanded') === 'true';
-                btn.setAttribute('aria-expanded', String(!open));
-                nav.classList.toggle('nav-open');
-            });
-        })();
-    </script>
+  <footer class="w-full mt-12 pb-6 flex flex-col items-center text-[#bcbcbc] text-sm opacity-80">
+    <div>
+      &copy; 2025 <span class="font-semibold text-[#0ea5e9]">The 01</span> &mdash; Crafted with <span
+        style="color:#f87171;">&#9829;</span> and curiosity.
+    </div>
+    <div class="mt-1">
+      <a href="https://github.com/ikenith/ikenith.github.io" target="_blank"
+        class="underline hover:text-[#0ea5e9]">GitHub</a>
+      &middot;
+      <span>Minimalist, dark, and open source.</span>
+    </div>
+  </footer>
 </body>
 
 </html>
