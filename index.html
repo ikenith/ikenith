@@ -4,103 +4,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The 01</title>
-  <link rel="icon" type="image/x-icon" href="logo.ico">
+  <title>The Roots</title>
+  <link rel="icon" type="image/svg+xml" href="style/logo.svg">
 
   <!-- Fonts & Tailwind -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    body {
-      background: #0a0a0f;
-      color: #e5e7eb;
-      font-family: Inter, system-ui, sans-serif;
-    }
-
-    .main-title {
-      font-family: Poppins, Inter, sans-serif;
-      font-size: 2.7rem;
-      font-weight: 700;
-      color: #fff;
-      text-align: center;
-      margin-top: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .post-list {
-      max-width: 900px;
-      margin: 2rem auto;
-    }
-
-    .post-card {
-      background: #18181b;
-      border-radius: 1.2rem;
-      padding: 1.3rem 2rem;
-      margin-bottom: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: background-color 0.2s;
-    }
-
-    .post-card:hover {
-      background: #23272a;
-    }
-
-    .post-title-link {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #fff;
-      text-decoration: none;
-      font-family: Poppins, Inter, sans-serif;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-    }
-
-    .post-title-link:hover {
-      color: #0ea5e9;
-    }
-
-    .post-date {
-      color: #bcbcbc;
-      font-size: 1rem;
-      margin-top: 0.2rem;
-      font-family: Inter, sans-serif;
-    }
-
-    @media (max-width: 600px) {
-      .main-title {
-        font-size: 2rem;
-      }
-
-      .post-card {
-        padding: 1rem 0.7rem;
-      }
-
-      .post-list {
-        padding: 0 0.5rem;
-      }
-    }
-  </style>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
   <!-- Logo at top right -->
   <div class="fixed top-6 right-8 z-50 flex flex-col items-center cursor-pointer"
     onclick="window.location.href='index.html'">
-    <img src="logo.png" alt="Logo" class="h-14 w-14 shadow-lg" />
+    <img src="style/logo.svg" alt="The Roots Logo" class="h-14 w-14 shadow-lg" />
     <span class="mt-1 text-xs text-[#bcbcbc] tracking-wide">Root Browser</span>
   </div>
 
-  <!-- Main title and subheading -->
-  <div class="main-title">The 01</div>
-  <div class="text-center text-[#bcbcbc] text-sm mb-4">
-    Thoughts, Notes, and Research
+  <!-- Logo + Subheading -->
+  <div class="header">
+    <div class="roots-logo">
+      <svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <style>
+          text {
+            font-family: 'Georgia', serif;
+            font-size: 52px;
+            fill: #fff;
+          }
+
+          .roots {
+            stroke: #8f8f8f;
+            stroke-width: 1.5;
+            fill: none;
+          }
+        </style>
+        <text x="10" y="35">The Roots</text>
+        <path class="roots" d="M90 38 C95 50, 105 55, 110 45 
+                              M100 38 C105 55, 115 60, 120 48
+                              M110 38 C120 55, 130 52, 135 42" />
+      </svg>
+    </div>
+    <div class="subheading">Thoughts, Notes, and Research</div>
   </div>
+
 
   <!-- Posts list -->
   <div id="posts" class="post-list"></div>
@@ -131,18 +80,8 @@
         ? posts.map(post => `
           <div class="post-card">
             ${post.image ? `
-              <div style="
-                width: 100%;
-                max-width: 360px;
-                margin-bottom: 1.1rem;
-                border-radius: 1.1rem;
-                overflow: hidden;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background: #23272a;
-              ">
-                <img src="${post.image}" alt="Post image" style="width: 100%; height: 180px; object-fit: cover; border-radius: 1.1rem;">
+              <div class="post-image-wrapper">
+                <img src="${post.image}" alt="Post image" class="post-image">
               </div>
             ` : ""}
             <a class="post-title-link flex items-center gap-2 group" href="post.html?file=${encodeURIComponent(post.path)}">
@@ -187,13 +126,12 @@
       const postsContainer = document.getElementById("posts");
       postsContainer.innerHTML = `<div style="text-align:center;color:#bcbcbc;">Loading...</div>`;
 
-      // Check cache
       const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
         const { posts, timestamp } = JSON.parse(cached);
         if (Date.now() - timestamp < CACHE_DURATION) {
           renderPosts(posts);
-          return; // Use cached data
+          return;
         }
       }
 
@@ -211,7 +149,7 @@
 
   <footer class="w-full mt-12 pb-6 flex flex-col items-center text-[#bcbcbc] text-sm opacity-80">
     <div>
-      &copy; 2025 <span class="font-semibold text-[#0ea5e9]">The 01</span> &mdash; Crafted with <span
+      &copy; 2025 <span class="font-semibold text-[#0ea5e9]">The Roots</span> &mdash; Crafted with <span
         style="color:#f87171;">&#9829;</span> and curiosity.
     </div>
     <div class="mt-1">
