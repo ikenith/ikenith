@@ -17,17 +17,18 @@
 </head>
 
 <body>
-  <!-- Logo at top right -->
+  <!-- Floating logo (top right) -->
   <div class="fixed top-6 right-8 z-50 flex flex-col items-center cursor-pointer"
     onclick="window.location.href='index.html'">
     <img src="style/logo.svg" alt="The Roots Logo" class="h-14 w-14 shadow-lg" />
-    <span class="mt-1 text-xs text-[#bcbcbc] tracking-wide">Root Browser</span>
+    <!-- <span class="mt-1 text-xs text-[#bcbcbc] tracking-wide">Root Browser</span> -->
   </div>
 
-  <!-- Logo + Subheading -->
-  <div class="header">
+  <!-- Main header -->
+  <header class="header">
     <div class="roots-logo">
-      <svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <!-- FIXED viewBox so “s” is visible -->
+      <svg viewBox="0 0 300 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <style>
           text {
             font-family: 'Georgia', serif;
@@ -41,18 +42,19 @@
             fill: none;
           }
         </style>
-        <text x="10" y="35">The Roots</text>
+        <text x="10" y="45">The Roots</text>
         <path class="roots" d="M90 38 C95 50, 105 55, 110 45 
                               M100 38 C105 55, 115 60, 120 48
                               M110 38 C120 55, 130 52, 135 42" />
       </svg>
     </div>
     <div class="subheading">Thoughts, Notes, and Research</div>
-  </div>
-
+  </header>
 
   <!-- Posts list -->
-  <div id="posts" class="post-list"></div>
+  <main>
+    <div id="posts" class="post-list"></div>
+  </main>
 
   <script>
     // --- CONFIG ---
@@ -147,6 +149,7 @@
     loadPosts();
   </script>
 
+  <!-- Footer -->
   <footer class="w-full mt-12 pb-6 flex flex-col items-center text-[#bcbcbc] text-sm opacity-80">
     <div>
       &copy; 2025 <span class="font-semibold text-[#0ea5e9]">The Roots</span> &mdash; Crafted with <span

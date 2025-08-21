@@ -8,6 +8,7 @@ body {
 .header {
     text-align: center;
     margin-top: 1rem;
+    display: fixed;
 }
 
 .roots-logo {
@@ -96,8 +97,8 @@ body {
 
 /* Responsive */
 @media (max-width: 600px) {
-    .main-title {
-        font-size: 2rem;
+    .subheading {
+        font-size: 1rem;
     }
 
     .post-card {
@@ -106,5 +107,20 @@ body {
 
     .post-list {
         padding: 0 0.5rem;
+    }
+
+    .post-image {
+        height: auto;
+    }
+
+    .post-title-link {
+        font-size: 1rem;
+    }
+
+    /* Hide/shrink top-right logo on very small screens */
+    .root-browser {
+        transform: scale(0.85);
+        right: 4px;
+        top: 4px;
     }
 }
